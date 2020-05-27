@@ -1,17 +1,34 @@
-version: '3.3'
+version: '3.5'
 services:
   app:
-    image: "tikazyq/artipub:latest"
+    image: "clay/artipub:0.1.4"
+    container_name: clay-artipub-server
     environment:
-      MONGO_HOST: "mongo"
-      ARTIPUB_API_ADDRESS: "http://localhost:3000" # 后端API地址，如果安装地址不在本机，请修改为协议+服务器IP地址+端口号（默认为3000）
+      MONGO_HOST: "172.176.0.2:27017"
+      ARTIPUB_API_ADDRESS: "http://127.0.0.1:3000"     # backend
     ports:
-      - "8000:8000" # frontend
-      - "3000:3000" # backend
+      - "8000:8000"   # frontend
+      - "3000:3000"   # backend
+    networks:
+      artipub-network:
+        ipv4_address: 172.176.0.3
     depends_on:
       - mongo
+
   mongo:
     image: mongo:latest
+    container_name: clay-artipub-mongodb
     restart: always
     ports:
       - "27017:27017"
+    networks:
+      artipub-network:
+        ipv4_address: 172.176.0.2
+
+networks:
+  artipub-network:
+    name: artipub-network
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.176.0.0/24
