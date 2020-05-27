@@ -1,8 +1,8 @@
 version: '3.5'
 services:
   app:
-    image: "clay/artipub:0.1.4"
-    container_name: clay-artipub-server
+    image: "tikazyq/artipub:latest"
+    container_name: artipub-server
     environment:
       MONGO_HOST: "172.176.0.2:27017"
       ARTIPUB_API_ADDRESS: "http://127.0.0.1:3000"     # backend
@@ -17,7 +17,7 @@ services:
 
   mongo:
     image: mongo:latest
-    container_name: clay-artipub-mongodb
+    container_name: artipub-mongodb
     restart: always
     ports:
       - "27017:27017"
